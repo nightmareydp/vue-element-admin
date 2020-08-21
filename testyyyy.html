@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div id="getCleanAllData" style="width: 110px;height:70px;">
+    <a href="http://localhost:8080/itsv/cleanAllData" class="trans-btn trans-btn-zh" id="cleanAllData-button">
+        <button type="submit" name="cleanAllData" id="cleanAllData"  >清洗全量数据</button>
+    </a>
+</div>
+
+<!--        &lt;!&ndash; getProductLine &ndash;&gt;-->
+<!--        <div id="main" style="width: 900px;height:600px;"></div>-->
+<!--        <script type="text/javascript">-->
+<!--            const name = [];-->
+<!--            const num = [];-->
+<!--            const bili = [];-->
+<!--            $.ajax({-->
+<!--                url: "http://localhost:8080/itsv/getProductLine", //访问的url地址-->
+<!--                type: "GET", //请求类型-->
+<!--                async: false,-->
+<!--                success: function(result) {-->
+<!--                    //result为接受的结果-->
+<!--                    console.log(result);-->
+<!--                    result.forEach(function (val) {-->
+<!--                        name.push(val.name)-->
+<!--                        num.push(val.num)-->
+<!--                        bili.push(val.bili)-->
+<!--                    })-->
+<!--                }-->
+<!--            })-->
+
+<!--            // 基于准备好的dom，初始化echarts实例-->
+<!--            var dom = document.getElementById('main');-->
+<!--            var myChart = echarts.init(dom);-->
+
+<!--            // 指定图表的配置项和数据-->
+<!--            var option = {-->
+<!--                title: {-->
+<!--                    text: '本周产品线事件单周占比'-->
+<!--                },-->
+<!--                tooltip: {},-->
+<!--                legend: {-->
+<!--                    data: ['单量','比例']-->
+<!--                },-->
+<!--                xAxis: {-->
+<!--                    data: name-->
+<!--                },-->
+<!--                yAxis: [-->
+<!--                    {-->
+<!--                        type: 'value',-->
+<!--                        splitLine: {-->
+<!--                            show: false-->
+<!--                        },-->
+<!--                        name: '单量',-->
+<!--                    },-->
+<!--                    {-->
+<!--                        type: 'value',-->
+<!--                        min: 0,-->
+<!--                        max: 0.5,-->
+<!--                        splitLine: {-->
+<!--                            show: false-->
+<!--                        },-->
+<!--                        name: '比例',-->
+<!--                    }],-->
+<!--                series: [-->
+<!--                    {-->
+<!--                        name: '单量',-->
+<!--                        type: 'bar',-->
+<!--                        label: {-->
+<!--                            show: true,-->
+<!--                            position: 'top',-->
+<!--                            fontSize: 16-->
+<!--                        },-->
+<!--                        data: num-->
+<!--                    },-->
+<!--                    {-->
+<!--                        name: '比例',-->
+<!--                        type: 'line',-->
+<!--                        label: {-->
+<!--                            show: true,-->
+<!--                            position: 'top',-->
+<!--                            fontSize: 16-->
+<!--                        },-->
+<!--                        yAxisIndex: 1,-->
+<!--                        data: bili-->
+<!--                    }-->
+<!--                ]-->
+<!--            };-->
+
+<!--            // 使用刚指定的配置项和数据显示图表。-->
+<!--            myChart.setOption(option);-->
+<!--        </script>-->
+
+<!-- getWorkload -->
+<div id="getWorkload" style="width:900px;height:600px;"></div>
+<script type="text/javascript">
+    const x = [];
+    const y = [];
+    $.ajax({
+        url: "http://localhost:8080/itsv/getWorkload", //访问的url地址
+        type: "GET", //请求类型
+        async: false,
+        success: function(result) {
+            //result为接受的结果
+            console.log(result);
+            result.forEach(function (val) {
+                x.push(val.name)
+                y.push(val.num)
+            })
+        }
+    })
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('getWorkload'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '每人工单数'
+        },
+        tooltip: {},
+        legend: {
+            data: ['单量']
+        },
+        xAxis: {
+            data: x
+        },
+        yAxis: {
+            name:'单',
+            nameLocation:'middle'
+        },
+        series: [{
+            name: '单量',
+            type: 'bar',
+            data: y
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+
+
+<!-- getSystemNum -->
+<div id="getSystemNum" style="width:900px;height:600px;"></div>
+<script type="text/javascript">
+    const SystemName = [];
+    const SystemNum = [];
+    $.ajax({
+        url: "http://localhost:8080/get/getTotalTrend", //访问的url地址
+        type: "GET", //请求类型
+        async: false,
+        success: function(result) {
+            //result为接受的结果
+            console.log(result);
+            result.forEach(function (val) {
+                SystemName.push(val.name)
+                SystemNum.push(val.num)
+            })
+        }
+    })
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('getSystemNum'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '系统单量'
+        },
+        tooltip: {},
+        legend: {
+            data: ['单量']
+        },
+        xAxis: {
+            data: SystemName
+        },
+        yAxis: {
+            name:'单',
+            nameLocation:'middle'
+        },
+        series: [{
+            name: '单量',
+            type: 'bar',
+            data: SystemNum
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+
+
+<div id="getSatisfaction" style="width: 900px;height:600px;"></div>
+<script>
+    const sName = [];
+    const sNum = [];
+    $.ajax({
+        url: "http://localhost:8080/get/getSatisfaction", //访问的url地址
+        type: "GET", //请求类型
+        async: false,
+        success: function(result) {
+            //result为接受的结果
+            console.log(result);
+            result.forEach(function (val) {
+                sName.push(val.name)
+                sNum.push(val.num)
+            })
+        }
+    })
+
+    // 绘制图表。
+    echarts.init(document.getElementById('getSatisfaction')).setOption({
+        title: {
+            text: '满意度',
+            left: 'center'
+        },
+        <!-- 选中标签数据格式 -->
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        <!-- 标签 -->
+        legend: {
+            orient: 'vertical',
+            right: 10,
+            top: 'center',
+            data: sName
+        },
+        series: [
+            {
+                name: '满意度',
+                type: 'pie',
+                <!-- 半径 -->
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                <!-- 选中中央数据标签 -->
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                <!-- 选中中央数据标签 -->
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                },
+                <!-- 是否显示视觉引导线 -->
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: sNum[0], name: sName[0]},
+                    {value: sNum[1], name: sName[1]},
+                    {value: sNum[2], name: sName[2]}
+                    // {value: 1548, name: '搜索引擎'}
+                ]
+            }
+        ]
+    });
+</script>
+
+<div id="getSLA" style="width: 900px;height:600px;"></div>
+<script>
+    const slaName = [];
+    const slaNum = [];
+    $.ajax({
+        url: "http://localhost:8080/get/getSla", //访问的url地址
+        type: "GET", //请求类型
+        async: false,
+        success: function(result) {
+            //result为接受的结果
+            console.log(result);
+            result.forEach(function (val) {
+                slaName.push(val.name)
+                slaNum.push(val.num)
+            })
+        }
+    });
+
+    echarts.init(document.getElementById('getSLA')).setOption({
+        title: {
+            text: 'SLA达标率',
+            left: 'center'
+        },
+        <!-- 选中标签数据格式 -->
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        <!-- 标签 -->
+        legend: {
+            orient: 'vertical',
+            right: 10,
+            top: 'center',
+            data: slaName
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: [
+            {
+                name: 'SLA达标率',
+                type: 'pie',
+                <!-- 半径 -->
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                <!-- 选中中央数据标签 -->
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                <!-- 选中中央数据标签 -->
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                },
+                <!-- 是否显示视觉引导线 -->
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: slaNum[0], name: slaName[0]},
+                    {value: slaNum[1], name: slaName[1]}
+                ]
+            }
+        ]
+    });
+
+</script>
+
+
+
+<div id="qwqw" style="width: 1500px;height:600px;"></div>
+<script>
+    // 绘制图表。
+    echarts.init(document.getElementById('qwqw')).setOption({
+        title: {
+            text: '饼图'
+        },
+        tooltip: {},
+        legend: {
+            data: ['A','B','C']
+        },
+        series: {
+            type: 'pie',
+            data: [
+                {name: 'A', value: 1212},
+                {name: 'B', value: 2323},
+                {name: 'C', value: 1919}
+            ]
+        }
+    });
+</script>
+</body>
+</html>
