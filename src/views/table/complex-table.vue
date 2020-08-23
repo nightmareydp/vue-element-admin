@@ -13,11 +13,11 @@
         <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key" />
       </el-select>
       <!-- 排序方式 -->
-<!--      <el-select v-model="listQuery.sort" style="width: 140px;margin-left: 10px;" class="filter-item" @change="handleFilter" >-->
-<!--        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />-->
-<!--      </el-select>-->
+      <!--      <el-select v-model="listQuery.sort" style="width: 140px;margin-left: 10px;" class="filter-item" @change="handleFilter" >-->
+      <!--        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />-->
+      <!--      </el-select>-->
       <!-- 搜索按钮 -->
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter" style="margin-left: 10px;">
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="handleFilter">
         {{ $t('table.search') }}
       </el-button>
       <!-- 添加按钮 -->
@@ -36,34 +36,35 @@
         <el-table
           :data="list"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             type="index"
             label="序号"
             width="70"
-            :index="indexMethod">
-          </el-table-column>
+            :index="indexMethod"
+          />
           <el-table-column
             prop="eventClassificationLevel2"
             label="系统分类二层"
-            width="300">
-          </el-table-column>
+            width="300"
+          />
           <el-table-column
             prop="eventClassificationLevel3"
             label="系统分类三层"
-            width="300">
-          </el-table-column>
+            width="300"
+          />
           <el-table-column
             prop="productLine"
             label="产品线"
-            width="300">
-          </el-table-column>
+            width="300"
+          />
           <el-table-column
             prop="productTag"
             label="产品标签"
-            width="300">
-          </el-table-column>
-          <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
+            width="300"
+          />
+          <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
               <el-button type="primary" size="mini" @click="handleUpdate(row)">
@@ -78,43 +79,44 @@
         </el-table>
         <!-- 分页-->
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
           :current-page="listQuery.page"
           :page-sizes="[20, 50, 100]"
           :page-size="listQuery.limit"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-          background>
-        </el-pagination>
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </el-tab-pane>
       <el-tab-pane label="处理级别t_dspatch_level">
         <el-table
           :data="tableDataDspatchLevel"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             type="index"
             label="序号"
             width="70"
-            :index="indexMethod">
-          </el-table-column>
+            :index="indexMethod"
+          />
           <el-table-column
             prop="assignedLevel3Department"
             label="受派三级部门"
-            width="300">
-          </el-table-column>
+            width="300"
+          />
           <el-table-column
             prop="assignedPerson"
             label="受派人"
-            width="300">
-          </el-table-column>
+            width="300"
+          />
           <el-table-column
             prop="level"
             label="分派级别"
-            width="300">
-          </el-table-column>
-          <el-table-column :label="$t('table.actions')" align="center"  class-name="small-padding fixed-width">
+            width="300"
+          />
+          <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
               <el-button type="primary" size="mini" @click="handleUpdate(row)">
@@ -132,21 +134,22 @@
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="date"
             label="日期"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="address"
-            label="地址">
-          </el-table-column>
+            label="地址"
+          />
           <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
@@ -165,21 +168,22 @@
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="date"
             label="日期"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="address"
-            label="地址">
-          </el-table-column>
+            label="地址"
+          />
           <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
@@ -198,21 +202,22 @@
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="date"
             label="日期"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="address"
-            label="地址">
-          </el-table-column>
+            label="地址"
+          />
           <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
@@ -231,21 +236,22 @@
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="date"
             label="日期"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
-          </el-table-column>
+            width="180"
+          />
           <el-table-column
             prop="address"
-            label="地址">
-          </el-table-column>
+            label="地址"
+          />
           <el-table-column :label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
               <!-- 编辑按钮 -->
@@ -260,8 +266,6 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-
-
     </el-tabs>
 
     <!-- 添加、编辑页面 -->
@@ -311,12 +315,10 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
+import { fetchList, createArticle, updateArticle } from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
-import Pagination from '@/components/Pagination'
-import {fetch} from "../../../fetch"; // secondary package based on el-pagination
-
+import { fetch } from '../../../fetch' // secondary package based on el-pagination
 
 // 类型
 const calendarTypeOptions = [
@@ -334,7 +336,7 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: 'ComplexTable',
-  components: { Pagination },
+  // components: { Pagination },
   directives: { waves },
   filters: {
     statusFilter(status) {
@@ -364,7 +366,7 @@ export default {
         sort: '+id'
       },
       importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
+      // calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
@@ -401,48 +403,48 @@ export default {
   },
   methods: {
     indexMethod(index) {
-      return index + 1;
+      return index + 1
     },
     getSystemProductAllData() {
-      const _this = this;
+      const _this = this
       fetch.get({ url: '/cleanRelation/getSystemProductAllData' }, res => {
         console.log(res)
-        res.data.forEach(function(val){
+        res.data.forEach(function(val) {
           _this.tableDataSystemProduct.push(val)
         })
-        for(let i=0; i < 20; i++){
+        for (let i = 0; i < 20; i++) {
           this.list.push(this.tableDataSystemProduct[i])
         }
         this.total = res.data.length
       })
     },
     handleSizeChange(limit) {
-      console.log(`每页 ${limit} 条`);
-      this.currentChangePage(this.listQuery.page, limit);
+      console.log(`每页 ${limit} 条`)
+      this.currentChangePage(this.listQuery.page, limit)
     },
     handleCurrentChange(page) {
-      console.log(`当前页: ${page}`);
-      this.currentChangePage(page, this.listQuery.limit);
+      console.log(`当前页: ${page}`)
+      this.currentChangePage(page, this.listQuery.limit)
     },
-    currentChangePage(page,limit) {
-      //清空list
+    currentChangePage(page, limit) {
+      // 清空list
       this.list = []
       // 分页开始的下标
-      let i = (page - 1) * limit;// 当前页面选中的分页下标-1 * 展示的数据的条数
+      let i = (page - 1) * limit// 当前页面选中的分页下标-1 * 展示的数据的条数
       // 分页结束的下标
-      let sum = page * limit;
-      if (sum > this.total){
+      let sum = page * limit
+      if (sum > this.total) {
         sum = this.total
       }
-      for(; i < sum; i++){
+      for (; i < sum; i++) {
         this.list.push(this.tableDataSystemProduct[i])
       }
     },
     getDspatchLevelAllData() {
-      const _this = this;
+      const _this = this
       fetch.get({ url: '/cleanRelation/getDspatchLevelAllData' }, res => {
         console.log(res)
-        res.data.forEach(function(val){
+        res.data.forEach(function(val) {
           _this.tableDataDspatchLevel.push(val)
         })
         // for(let i=0; i < 20; i++){
@@ -563,12 +565,6 @@ export default {
         duration: 2000
       })
       this.list.splice(index, 1)
-    },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
     },
     handleDownload() {
       this.downloadLoading = true
