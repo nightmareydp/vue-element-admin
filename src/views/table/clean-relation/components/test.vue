@@ -12,7 +12,7 @@
       <span class="demonstration" style="margin-left: 10px;">产品标签</span>
       <el-input v-model="temp.productTag" placeholder="产品标签" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
-      <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="handleFilter">
+      <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
       </el-button>
       <!-- 添加按钮 -->
@@ -78,9 +78,9 @@
     <!-- 分页-->
     <div class="filter-container">
       <el-pagination
-        :current-page="listQuery.page"
-        :page-sizes="[20, 50, 100]"
-        :page-size="listQuery.limit"
+        :current-page="page"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         background
@@ -132,23 +132,20 @@ export default {
       return statusMap[status]
     }
     /* typeFilter(type) {
-          return calendarTypeKeyValue[type]
-        }*/
+            return calendarTypeKeyValue[type]
+          }*/
   },
   data() {
     return {
       tableKey: 0,
-      list: [],
-      total: 0,
       listLoading: false,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        // importance: undefined,
-        // title: undefined,
-        // type: undefined,
-        sort: '+id'
-      },
+      // 列表、分页
+      list: [],
+      data: [],
+      limit: 20,
+      total: null,
+      page: 1,
+      searchData: '',
       // importanceOptions: [1, 2, 3],
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       // statusOptions: ['published', 'draft', 'deleted'],
@@ -185,51 +182,7 @@ export default {
     indexMethod(index) {
       return index + 1
     },
-    getSystemProductAllData() {
-      const _this = this
-      fetch.get({ url: '/cleanRelation/getSystemProductAllData' }, res => {
-        console.log(res)
-        res.data.forEach(function(val) {
-          _this.tableDataSystemProduct.push(val)
-        })
-        for (let i = 0; i < 20; i++) {
-          this.list.push(this.tableDataSystemProduct[i])
-        }
-        this.total = res.data.length
-      })
-    },
-    handleSizeChange(limit) {
-      console.log(`每页 ${limit} 条`)
-      this.currentChangePage(this.listQuery.page, limit)
-    },
-    handleCurrentChange(page) {
-      console.log(`当前页: ${page}`)
-      this.currentChangePage(page, this.listQuery.limit)
-    },
-    currentChangePage(page, limit) {
-      // 清空list
-      this.list = []
-      // 分页开始的下标
-      let i = (page - 1) * limit// 当前页面选中的分页下标-1 * 展示的数据的条数
-      // 分页结束的下标
-      let sum = page * limit
-      if (sum > this.total) {
-        sum = this.total
-      }
-      for (; i < sum; i++) {
-        this.list.push(this.tableDataSystemProduct[i])
-      }
-    },
-    handleFilter() {
-      this.listLoading = true
-      // 模拟请求时间
-      setTimeout(() => {
-        this.listLoading = false
-      }, 1000)
-      this.listQuery.page = 1
-      this.list = []
-      this.getSystemProductAllData()
-    },
+
     handleCreate() {
       // this.resetTemp()
       this.dialogStatus = 'create'
@@ -283,6 +236,48 @@ export default {
           })
         }
       })
+    },
+    // -------------------------------------------------
+    getSystemProductAllData() {
+      // 发请求拿到数据并暂存全部数据,方便之后操作
+      const _this = this
+      fetch.get({ url: '/cleanRelation/getSystemProductAllData' }, res => {
+        console.log(res)
+        res.data.forEach(function(val) {
+          _this.data.push(val)
+        })
+      })
+      _this.getList()
+    },
+    getList() {
+      // es6过滤得到满足搜索条件的展示数据list
+      const list = this.data.filter((item, index) =>
+        item.eventClassificationLevel2.includes(this.temp.eventClassificationLevel2) &&
+          item.eventClassificationLevel3.includes(this.temp.eventClassificationLevel3) &&
+          item.productLine.includes(this.temp.productLine) &&
+          item.productTag.includes(this.temp.productTag)
+      )
+      this.list = list.filter((item, index) =>
+        index < this.page * this.limit && index >= this.limit * (this.page - 1)
+      )
+      this.total = list.length
+    },
+    // 当每页数量改变
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.limit = val
+      this.getList()
+    },
+    // 当当前页改变
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.page = val
+      this.getList()
+    },
+    // 搜索过滤数据
+    search() {
+      this.page = 1
+      this.getList()
     }
 
   }
