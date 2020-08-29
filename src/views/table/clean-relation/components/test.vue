@@ -4,13 +4,13 @@
     <div class="filter-container">
       <!-- 标题搜索 -->
       <span class="demonstration">系统分类二层</span>
-      <el-input v-model="temp.eventClassificationLevel2" placeholder="系统分类二层" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <el-input v-model="select.systemClassificationLevel2" placeholder="系统分类二层" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <span class="demonstration" style="margin-left: 10px;">系统分类三层</span>
-      <el-input v-model="temp.eventClassificationLevel3" placeholder="系统分类三层" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <el-input v-model="select.systemClassificationLevel3" placeholder="系统分类三层" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <span class="demonstration" style="margin-left: 10px;">产品线</span>
-      <el-input v-model="temp.productLine" placeholder="产品线" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <el-input v-model="select.productLine" placeholder="产品线" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <span class="demonstration" style="margin-left: 10px;">产品标签</span>
-      <el-input v-model="temp.productTag" placeholder="产品标签" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <el-input v-model="select.productTag" placeholder="产品标签" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
       <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
@@ -43,12 +43,12 @@
         width="70"
       />
       <el-table-column
-        prop="eventClassificationLevel2"
+        prop="systemClassificationLevel2"
         label="系统分类二层"
         width="300"
       />
       <el-table-column
-        prop="eventClassificationLevel3"
+        prop="systemClassificationLevel3"
         label="系统分类三层"
         width="300"
       />
@@ -63,13 +63,13 @@
         width="300"
       />
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="{row,$index}">
+        <template slot-scope="{row}">
           <!-- 编辑按钮 -->
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
           </el-button>
           <!-- 删除按钮 -->
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
+          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
             {{ $t('table.delete') }}
           </el-button>
         </template>
@@ -91,11 +91,11 @@
     <!-- 添加、编辑弹出框-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="系统分类二层" :label-width="formLabelWidth" prop="eventClassificationLevel2">
-          <el-input v-model="temp.eventClassificationLevel2" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="系统分类二层" :label-width="formLabelWidth" prop="systemClassificationLevel2">
+          <el-input v-model="temp.systemClassificationLevel2" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="系统分类三层" :label-width="formLabelWidth" prop="eventClassificationLevel3">
-          <el-input v-model="temp.eventClassificationLevel3" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="系统分类三层" :label-width="formLabelWidth" prop="systemClassificationLevel3">
+          <el-input v-model="temp.systemClassificationLevel3" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
         <el-form-item label="产品线" :label-width="formLabelWidth" prop="productLine">
           <el-input v-model="temp.productLine" autocomplete="off" style="width: 400px; margin-left: 5px;" />
@@ -119,7 +119,6 @@
 
 <script>
 import { fetch } from '../../../../../fetch'
-import { createArticle, updateArticle } from '@/api/article'
 
 export default {
   filters: {
@@ -146,13 +145,18 @@ export default {
       total: null,
       page: 1,
       searchData: '',
-      // importanceOptions: [1, 2, 3],
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      // statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
+      select: {
+        systemClassificationLevel2: '',
+        systemClassificationLevel3: '',
+        productLine: '',
+        productTag: ''
+      },
       temp: {
-        eventClassificationLevel2: '',
-        eventClassificationLevel3: '',
+        id: '',
+        systemClassificationLevel2: '',
+        systemClassificationLevel3: '',
         productLine: '',
         productTag: ''
       },
@@ -166,8 +170,8 @@ export default {
       },
       // 必填提示
       rules: {
-        eventClassificationLevel2: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        eventClassificationLevel3: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        systemClassificationLevel2: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        systemClassificationLevel3: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
         productLine: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
         productTag: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
       },
@@ -182,80 +186,33 @@ export default {
     indexMethod(index) {
       return index + 1
     },
-
-    handleCreate() {
-      // this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      // this.temp.timestamp = new Date(this.temp.timestamp)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    // -------------------------------------------------
     getSystemProductAllData() {
       // 发请求拿到数据并暂存全部数据,方便之后操作
       const _this = this
+      // 开启loading界面
+      this.listLoading = true
+      // 置空表单，避免增删改后，表单不刷新或新旧数据冗余
+      this.list = []
+      this.data = []
       fetch.get({ url: '/cleanRelation/getSystemProductAllData' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           _this.data.push(val)
+          _this.getList()
         })
+        // loading
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 1000)
       })
-      _this.getList()
     },
     getList() {
-      // es6过滤得到满足搜索条件的展示数据list
+      // 过滤得到满足搜索条件的展示数据list
       const list = this.data.filter((item, index) =>
-        item.eventClassificationLevel2.includes(this.temp.eventClassificationLevel2) &&
-          item.eventClassificationLevel3.includes(this.temp.eventClassificationLevel3) &&
-          item.productLine.includes(this.temp.productLine) &&
-          item.productTag.includes(this.temp.productTag)
+        item.systemClassificationLevel2.includes(this.select.systemClassificationLevel2) &&
+        item.systemClassificationLevel3.includes(this.select.systemClassificationLevel3) &&
+        item.productLine.includes(this.select.productLine) &&
+        item.productTag.includes(this.select.productTag)
       )
       this.list = list.filter((item, index) =>
         index < this.page * this.limit && index >= this.limit * (this.page - 1)
@@ -268,7 +225,7 @@ export default {
       this.limit = val
       this.getList()
     },
-    // 当当前页改变
+    // 当前页改变
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
       this.page = val
@@ -278,6 +235,101 @@ export default {
     search() {
       this.page = 1
       this.getList()
+    },
+    // 新建数据
+    handleCreate() {
+      // 置空弹框字段，避免之前填写内容或编辑带出内容影响
+      this.temp.systemClassificationLevel2 = ''
+      this.temp.systemClassificationLevel3 = ''
+      this.temp.productLine = ''
+      this.temp.productTag = ''
+      // 打开弹窗
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        fetch.get({ url: '/cleanRelation/setSystemProductNewData?systemClassificationLevel2=' + this.temp.systemClassificationLevel2 +
+              '&systemClassificationLevel3=' + this.temp.systemClassificationLevel3 +
+              '&productLine=' + this.temp.productLine +
+              '&productTag=' + this.temp.productTag }, res => {
+          console.log(res)
+          this.dialogFormVisible = false
+          // 新增后刷新表单
+          this.getSystemProductAllData()
+          // 成功消息提醒
+          this.$notify({
+            title: '成功',
+            message: '创建成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      })
+    },
+    // 更新数据
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        const tempData = Object.assign({}, this.temp)
+        tempData.timestamp = +new Date(tempData.timestamp)
+        // this.listLoading = true
+        fetch.get({ url: '/cleanRelation/updateSystemProductData?systemClassificationLevel2=' + this.temp.systemClassificationLevel2 +
+            '&systemClassificationLevel3=' + this.temp.systemClassificationLevel3 +
+            '&productLine=' + this.temp.productLine +
+            '&productTag=' + this.temp.productTag +
+            '&id=' + this.temp.id }, res => {
+          console.log(res)
+          this.dialogFormVisible = false
+          // 更新后刷新表单
+          this.getSystemProductAllData()
+          // 成功消息提醒
+          this.$notify({
+            title: '成功',
+            message: '更新成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      })
+    },
+    // 删除数据
+    handleDelete(row) {
+      this.temp = Object.assign({}, row)
+      // 弹窗提示
+      this.$confirm('将删除此数据！确认是否删除', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        fetch.get({ url: '/cleanRelation/deleteSystemProductData?id=' + this.temp.id }, res => {
+          // 删除后刷新表单
+          this.getSystemProductAllData()
+          // 成功消息提醒
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      }).catch(() => {
+        // 取消并提示
+        this.$message({
+          type: 'info',
+          message: '取消删除'
+        })
+      })
     }
 
   }
