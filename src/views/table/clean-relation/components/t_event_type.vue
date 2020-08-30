@@ -3,12 +3,14 @@
     <!-- 搜索框 -->
     <div class="filter-container">
       <!-- 标题搜索 -->
-      <span class="demonstration">受派三级部门</span>
-      <el-input v-model="select.assignedLevel3Department" placeholder="受派三级部门" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">受派人</span>
-      <el-input v-model="select.assignedPerson" placeholder="受派人" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">分派级别</span>
-      <el-input v-model="select.level" placeholder="分派级别" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration">事件分类层二</span>
+      <el-input v-model="select.eventClassificationLevel2" placeholder="事件分类层二" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">事件分类层三</span>
+      <el-input v-model="select.eventClassificationLevel3" placeholder="事件分类层三" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">主事件类型</span>
+      <el-input v-model="select.masterEventType" placeholder="主事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">子事件类型</span>
+      <el-input v-model="select.sonEventType" placeholder="子事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
       <el-button class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
@@ -41,18 +43,23 @@
         width="70"
       />
       <el-table-column
-        prop="assignedLevel3Department"
-        label="受派三级部门"
+        prop="eventClassificationLevel2"
+        label="事件分类层二"
         width="300"
       />
       <el-table-column
-        prop="assignedPerson"
-        label="受派人"
+        prop="eventClassificationLevel3"
+        label="事件分类层三"
         width="300"
       />
       <el-table-column
-        prop="level"
-        label="分派级别"
+        prop="masterEventType"
+        label="主事件类型"
+        width="300"
+      />
+      <el-table-column
+        prop="sonEventType"
+        label="子事件类型"
         width="300"
       />
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
@@ -84,14 +91,17 @@
     <!-- 添加、编辑弹出框-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="受派三级部门" :label-width="formLabelWidth" prop="assignedLevel3Department">
-          <el-input v-model="temp.assignedLevel3Department" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="事件分类层二" :label-width="formLabelWidth" prop="eventClassificationLevel2">
+          <el-input v-model="temp.eventClassificationLevel2" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="受派人" :label-width="formLabelWidth" prop="assignedPerson">
-          <el-input v-model="temp.assignedPerson" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="事件分类层三" :label-width="formLabelWidth" prop="eventClassificationLevel3">
+          <el-input v-model="temp.eventClassificationLevel3" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="分派级别" :label-width="formLabelWidth" prop="level">
-          <el-input v-model="temp.level" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="主事件类型" :label-width="formLabelWidth" prop="masterEventType">
+          <el-input v-model="temp.masterEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        </el-form-item>
+        <el-form-item label="子事件类型" :label-width="formLabelWidth" prop="sonEventType">
+          <el-input v-model="temp.sonEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -135,15 +145,17 @@ export default {
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       showReviewer: false,
       select: {
-        assignedLevel3Department: '',
-        assignedPerson: '',
-        level: ''
+        eventClassificationLevel2: '',
+        eventClassificationLevel3: '',
+        masterEventType: '',
+        sonEventType: ''
       },
       temp: {
         id: '',
-        assignedLevel3Department: '',
-        assignedPerson: '',
-        level: ''
+        eventClassificationLevel2: '',
+        eventClassificationLevel3: '',
+        masterEventType: '',
+        sonEventType: ''
       },
       dialogFormVisible: false,
       formLabelWidth: '120px',
@@ -155,37 +167,34 @@ export default {
       },
       // 必填提示
       rules: {
-        assignedLevel3Department: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        level: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
+        eventClassificationLevel2: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        eventClassificationLevel3: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        masterEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        sonEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
       },
       downloadLoading: false
       // tableDataSystemProduct: []
     }
   },
   created() {
-    this.getDspatchLevelAllData()
+    this.getEventTypeAllData()
   },
   methods: {
     indexMethod(index) {
       return index + 1
     },
-    getDspatchLevelAllData() {
+    getEventTypeAllData() {
       // 发请求拿到数据并暂存全部数据,方便之后操作
       const _this = this
-
       // 开启loading界面
       this.listLoading = true
       // 置空表单，避免增删改后，表单不刷新或新旧数据冗余
       this.list = []
       this.data = []
-      fetch.get({ url: '/cleanRelation/getDspatchLevelAllData' }, res => {
+      fetch.get({ url: '/cleanRelation/getEventTypeAllData' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
-          const item = []
-          item.assignedLevel3Department = val.assignedLevel3Department
-          item.assignedPerson = val.assignedPerson == null ? 'null' : val.assignedPerson
-          item.level = val.level
-          _this.data.push(item)
+          _this.data.push(val)
           _this.getList()
         })
         // loading
@@ -197,9 +206,10 @@ export default {
     getList() {
       // 过滤得到满足搜索条件的展示数据list
       const list = this.data.filter((item, index) =>
-        item.assignedLevel3Department.includes(this.select.assignedLevel3Department) &&
-          item.assignedPerson.includes(this.select.assignedPerson) &&
-          item.level.includes(this.select.level)
+        item.eventClassificationLevel2.includes(this.select.eventClassificationLevel2) &&
+          item.eventClassificationLevel3.includes(this.select.eventClassificationLevel3) &&
+          item.masterEventType.includes(this.select.masterEventType) &&
+          item.sonEventType.includes(this.select.sonEventType)
       )
       this.list = list.filter((item, index) =>
         index < this.page * this.limit && index >= this.limit * (this.page - 1)
@@ -226,9 +236,10 @@ export default {
     // 新建数据
     handleCreate() {
       // 置空弹框字段，避免之前填写内容或编辑带出内容影响
-      this.temp.assignedLevel3Department = ''
-      this.temp.assignedPerson = ''
-      this.temp.level = ''
+      this.temp.eventClassificationLevel2 = ''
+      this.temp.eventClassificationLevel3 = ''
+      this.temp.masterEventType = ''
+      this.temp.sonEventType = ''
       // 打开弹窗
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -238,14 +249,14 @@ export default {
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
-        fetch.get({ url: '/cleanRelation/setDspatchLevelNewData?assignedLevel3Department=' + this.temp.assignedLevel3Department +
-              '&assignedPerson=' + this.temp.assignedPerson +
-              '&level=' + this.temp.level
-        }, res => {
+        fetch.get({ url: '/cleanRelation/setEventTypeNewData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
+              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
+              '&masterEventType=' + this.temp.masterEventType +
+              '&sonEventType=' + this.temp.sonEventType }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 新增后刷新表单
-          this.getDspatchLevelAllData()
+          this.getEventTypeAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -270,14 +281,15 @@ export default {
         const tempData = Object.assign({}, this.temp)
         tempData.timestamp = +new Date(tempData.timestamp)
         // this.listLoading = true
-        fetch.get({ url: '/cleanRelation/updateDspatchLevelData?assignedLevel3Department=' + this.temp.assignedLevel3Department +
-              '&assignedPerson=' + this.temp.assignedPerson +
-              '&level=' + this.temp.level +
+        fetch.get({ url: '/cleanRelation/updateEventTypeData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
+              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
+              '&masterEventType=' + this.temp.masterEventType +
+              '&sonEventType=' + this.temp.sonEventType +
               '&id=' + this.temp.id }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 更新后刷新表单
-          this.getDspatchLevelAllData()
+          this.getEventTypeAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -297,9 +309,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        fetch.get({ url: '/cleanRelation/deleteDspatchLevelData?id=' + this.temp.id }, res => {
+        fetch.get({ url: '/cleanRelation/deleteEventTypeData?id=' + this.temp.id }, res => {
           // 删除后刷新表单
-          this.getDspatchLevelAllData()
+          this.getEventTypeAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',

@@ -182,7 +182,9 @@ export default {
         console.log(res)
         res.data.forEach(function(val) {
           const item = []
+          item.id = val.id
           item.assignedLevel3Department = val.assignedLevel3Department
+          // 如果数据库受派人为空，处理为null字符串展示
           item.assignedPerson = val.assignedPerson == null ? 'null' : val.assignedPerson
           item.level = val.level
           _this.data.push(item)
@@ -269,7 +271,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         const tempData = Object.assign({}, this.temp)
         tempData.timestamp = +new Date(tempData.timestamp)
-        // this.listLoading = true
+        this.listLoading = true
         fetch.get({ url: '/cleanRelation/updateDspatchLevelData?assignedLevel3Department=' + this.temp.assignedLevel3Department +
               '&assignedPerson=' + this.temp.assignedPerson +
               '&level=' + this.temp.level +

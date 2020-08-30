@@ -12,7 +12,7 @@
       <span class="demonstration" style="margin-left: 10px;">产品标签</span>
       <el-input v-model="select.productTag" placeholder="产品标签" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
-      <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
+      <el-button class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
       </el-button>
       <!-- 添加按钮 -->
@@ -20,7 +20,7 @@
         {{ $t('table.add') }}
       </el-button>
       <!-- 导出 -->
-      <el-button v-waves :loading="downloadLoading" class="demonstration" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button :loading="downloadLoading" class="demonstration" type="primary" icon="el-icon-download" @click="handleDownload">
         {{ $t('table.export') }}
       </el-button>
     </div>
@@ -130,9 +130,6 @@ export default {
       }
       return statusMap[status]
     }
-    /* typeFilter(type) {
-              return calendarTypeKeyValue[type]
-            }*/
   },
   data() {
     return {
@@ -175,8 +172,8 @@ export default {
         productLine: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
         productTag: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
       },
-      downloadLoading: false,
-      tableDataSystemProduct: []
+      downloadLoading: false
+      // tableDataSystemProduct: []
     }
   },
   created() {
@@ -328,6 +325,25 @@ export default {
         this.$message({
           type: 'info',
           message: '取消删除'
+        })
+      })
+    },
+    handleDownload() {
+      // 弹窗提示
+      this.$confirm('敬请期待！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'info',
+          message: '谢谢'
+        })
+      }).catch(() => {
+        // 取消并提示
+        this.$message({
+          type: 'info',
+          message: '谢谢'
         })
       })
     }
