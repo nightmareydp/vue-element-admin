@@ -3,14 +3,10 @@
     <!-- 搜索框 -->
     <div class="filter-container">
       <!-- 标题搜索 -->
-      <span class="demonstration">事件分类层二</span>
-      <el-input v-model="select.eventClassificationLevel2" placeholder="事件分类层二" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">事件分类层三</span>
-      <el-input v-model="select.eventClassificationLevel3" placeholder="事件分类层三" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">主事件类型</span>
-      <el-input v-model="select.masterEventType" placeholder="主事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">子事件类型</span>
-      <el-input v-model="select.sonEventType" placeholder="子事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration">报告来源</span>
+      <el-input v-model="select.reportSource" placeholder="报告来源" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">报告来源new</span>
+      <el-input v-model="select.newSource" placeholder="报告来源new" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
       <el-button class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
@@ -43,24 +39,14 @@
         width="70"
       />
       <el-table-column
-        prop="eventClassificationLevel2"
-        label="事件分类层二"
-        width="300"
+        prop="reportSource"
+        label="报告来源"
+        width="500"
       />
       <el-table-column
-        prop="eventClassificationLevel3"
-        label="事件分类层三"
-        width="300"
-      />
-      <el-table-column
-        prop="masterEventType"
-        label="主事件类型"
-        width="300"
-      />
-      <el-table-column
-        prop="sonEventType"
-        label="子事件类型"
-        width="300"
+        prop="newSource"
+        label="报告来源new"
+        width="500"
       />
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -91,17 +77,11 @@
     <!-- 添加、编辑弹出框-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="事件分类层二" :label-width="formLabelWidth" prop="eventClassificationLevel2">
-          <el-input v-model="temp.eventClassificationLevel2" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="报告来源" :label-width="formLabelWidth" prop="reportSource">
+          <el-input v-model="temp.reportSource" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="事件分类层三" :label-width="formLabelWidth" prop="eventClassificationLevel3">
-          <el-input v-model="temp.eventClassificationLevel3" autocomplete="off" style="width: 400px; margin-left: 5px;" />
-        </el-form-item>
-        <el-form-item label="主事件类型" :label-width="formLabelWidth" prop="masterEventType">
-          <el-input v-model="temp.masterEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
-        </el-form-item>
-        <el-form-item label="子事件类型" :label-width="formLabelWidth" prop="sonEventType">
-          <el-input v-model="temp.sonEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="报告来源new" :label-width="formLabelWidth" prop="newSource">
+          <el-input v-model="temp.newSource" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,17 +125,13 @@ export default {
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       showReviewer: false,
       select: {
-        eventClassificationLevel2: '',
-        eventClassificationLevel3: '',
-        masterEventType: '',
-        sonEventType: ''
+        reportSource: '',
+        newSource: ''
       },
       temp: {
         id: '',
-        eventClassificationLevel2: '',
-        eventClassificationLevel3: '',
-        masterEventType: '',
-        sonEventType: ''
+        reportSource: '',
+        newSource: ''
       },
       dialogFormVisible: false,
       formLabelWidth: '120px',
@@ -167,23 +143,21 @@ export default {
       },
       // 必填提示
       rules: {
-        eventClassificationLevel2: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        eventClassificationLevel3: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        masterEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        sonEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
+        reportSource: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        newSource: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
       },
       downloadLoading: false
       // tableDataSystemProduct: []
     }
   },
   created() {
-    this.getEventTypeAllData()
+    this.getReportSourceAllData()
   },
   methods: {
     indexMethod(index) {
       return index + 1
     },
-    getEventTypeAllData() {
+    getReportSourceAllData() {
       // 发请求拿到数据并暂存全部数据,方便之后操作
       const _this = this
       // 开启loading界面
@@ -191,7 +165,7 @@ export default {
       // 置空表单，避免增删改后，表单不刷新或新旧数据冗余
       this.list = []
       this.data = []
-      fetch.get({ url: '/cleanRelation/getEventTypeAllData' }, res => {
+      fetch.get({ url: '/cleanRelation/getReportSourceAllData' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           _this.data.push(val)
@@ -206,10 +180,8 @@ export default {
     getList() {
       // 过滤得到满足搜索条件的展示数据list
       const list = this.data.filter((item, index) =>
-        item.eventClassificationLevel2.includes(this.select.eventClassificationLevel2) &&
-          item.eventClassificationLevel3.includes(this.select.eventClassificationLevel3) &&
-          item.masterEventType.includes(this.select.masterEventType) &&
-          item.sonEventType.includes(this.select.sonEventType)
+        item.reportSource.includes(this.select.reportSource) &&
+          item.newSource.includes(this.select.newSource)
       )
       this.list = list.filter((item, index) =>
         index < this.page * this.limit && index >= this.limit * (this.page - 1)
@@ -236,10 +208,8 @@ export default {
     // 新建数据
     handleCreate() {
       // 置空弹框字段，避免之前填写内容或编辑带出内容影响
-      this.temp.eventClassificationLevel2 = ''
-      this.temp.eventClassificationLevel3 = ''
-      this.temp.masterEventType = ''
-      this.temp.sonEventType = ''
+      this.temp.reportSource = ''
+      this.temp.newSource = ''
       // 打开弹窗
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -249,14 +219,12 @@ export default {
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
-        fetch.get({ url: '/cleanRelation/setEventTypeNewData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
-              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
-              '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType }, res => {
+        fetch.get({ url: '/cleanRelation/setReportSourceNewData?reportSource=' + this.temp.reportSource +
+              '&newSource=' + this.temp.newSource }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 新增后刷新表单
-          this.getEventTypeAllData()
+          this.getReportSourceAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -281,15 +249,13 @@ export default {
         const tempData = Object.assign({}, this.temp)
         tempData.timestamp = +new Date(tempData.timestamp)
         // this.listLoading = true
-        fetch.get({ url: '/cleanRelation/updateEventTypeData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
-              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
-              '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType +
+        fetch.get({ url: '/cleanRelation/updateReportSourceData?reportSource=' + this.temp.reportSource +
+              '&newSource=' + this.temp.newSource +
               '&id=' + this.temp.id }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 更新后刷新表单
-          this.getEventTypeAllData()
+          this.getReportSourceAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -309,9 +275,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        fetch.get({ url: '/cleanRelation/deleteEventTypeData?id=' + this.temp.id }, res => {
+        fetch.get({ url: '/cleanRelation/deleteReportSourceData?id=' + this.temp.id }, res => {
           // 删除后刷新表单
-          this.getEventTypeAllData()
+          this.getReportSourceAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',

@@ -3,14 +3,16 @@
     <!-- 搜索框 -->
     <div class="filter-container">
       <!-- 标题搜索 -->
-      <span class="demonstration">事件分类层二</span>
-      <el-input v-model="select.eventClassificationLevel2" placeholder="事件分类层二" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">事件分类层三</span>
-      <el-input v-model="select.eventClassificationLevel3" placeholder="事件分类层三" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">主事件类型</span>
-      <el-input v-model="select.masterEventType" placeholder="主事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">子事件类型</span>
-      <el-input v-model="select.sonEventType" placeholder="子事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration">日期</span>
+      <el-input v-model="select.date" placeholder="日期" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">日期类型</span>
+      <el-input v-model="select.dateType" placeholder="日期类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">星期</span>
+      <el-input v-model="select.week" placeholder="星期" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">正常周</span>
+      <el-input v-model="select.defaultWeek" placeholder="正常周" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
+      <span class="demonstration" style="margin-left: 10px;">运维周</span>
+      <el-input v-model="select.operationWeek" placeholder="运维周" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
       <!-- 搜索按钮 -->
       <el-button class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
         {{ $t('table.search') }}
@@ -43,24 +45,29 @@
         width="70"
       />
       <el-table-column
-        prop="eventClassificationLevel2"
-        label="事件分类层二"
-        width="300"
+        prop="date"
+        label="日期"
+        width="250"
       />
       <el-table-column
-        prop="eventClassificationLevel3"
-        label="事件分类层三"
-        width="300"
+        prop="dateType"
+        label="日期类型"
+        width="250"
       />
       <el-table-column
-        prop="masterEventType"
-        label="主事件类型"
-        width="300"
+        prop="week"
+        label="星期"
+        width="250"
       />
       <el-table-column
-        prop="sonEventType"
-        label="子事件类型"
-        width="300"
+        prop="defaultWeek"
+        label="正常周"
+        width="150"
+      />
+      <el-table-column
+        prop="operationWeek"
+        label="运维周"
+        width="150"
       />
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
@@ -91,17 +98,20 @@
     <!-- 添加、编辑弹出框-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="事件分类层二" :label-width="formLabelWidth" prop="eventClassificationLevel2">
-          <el-input v-model="temp.eventClassificationLevel2" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="日期" :label-width="formLabelWidth" prop="date">
+          <el-input v-model="temp.date" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="事件分类层三" :label-width="formLabelWidth" prop="eventClassificationLevel3">
-          <el-input v-model="temp.eventClassificationLevel3" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="日期类型" :label-width="formLabelWidth" prop="dateType">
+          <el-input v-model="temp.dateType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="主事件类型" :label-width="formLabelWidth" prop="masterEventType">
-          <el-input v-model="temp.masterEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="星期" :label-width="formLabelWidth" prop="week">
+          <el-input v-model="temp.week" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
-        <el-form-item label="子事件类型" :label-width="formLabelWidth" prop="sonEventType">
-          <el-input v-model="temp.sonEventType" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        <el-form-item label="正常周" :label-width="formLabelWidth" prop="defaultWeek">
+          <el-input v-model="temp.defaultWeek" autocomplete="off" style="width: 400px; margin-left: 5px;" />
+        </el-form-item>
+        <el-form-item label="运维周" :label-width="formLabelWidth" prop="operationWeek">
+          <el-input v-model="temp.operationWeek" autocomplete="off" style="width: 400px; margin-left: 5px;" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,17 +155,19 @@ export default {
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       showReviewer: false,
       select: {
-        eventClassificationLevel2: '',
-        eventClassificationLevel3: '',
-        masterEventType: '',
-        sonEventType: ''
+        date: '',
+        dateType: '',
+        week: '',
+        defaultWeek: '',
+        operationWeek: ''
       },
       temp: {
         id: '',
-        eventClassificationLevel2: '',
-        eventClassificationLevel3: '',
-        masterEventType: '',
-        sonEventType: ''
+        date: '',
+        dateType: '',
+        week: '',
+        defaultWeek: '',
+        operationWeek: ''
       },
       dialogFormVisible: false,
       formLabelWidth: '120px',
@@ -167,23 +179,24 @@ export default {
       },
       // 必填提示
       rules: {
-        eventClassificationLevel2: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        eventClassificationLevel3: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        masterEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
-        sonEventType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
+        date: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        dateType: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        week: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        defaultWeek: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }],
+        operationWeek: [{ required: true, message: '这是必填字段，请填写', trigger: 'blur' }]
       },
       downloadLoading: false
       // tableDataSystemProduct: []
     }
   },
   created() {
-    this.getEventTypeAllData()
+    this.getDayAllData()
   },
   methods: {
     indexMethod(index) {
       return index + 1
     },
-    getEventTypeAllData() {
+    getDayAllData() {
       // 发请求拿到数据并暂存全部数据,方便之后操作
       const _this = this
       // 开启loading界面
@@ -191,7 +204,7 @@ export default {
       // 置空表单，避免增删改后，表单不刷新或新旧数据冗余
       this.list = []
       this.data = []
-      fetch.get({ url: '/cleanRelation/getEventTypeAllData' }, res => {
+      fetch.get({ url: '/cleanRelation/getDayAllData' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           _this.data.push(val)
@@ -206,10 +219,11 @@ export default {
     getList() {
       // 过滤得到满足搜索条件的展示数据list
       const list = this.data.filter((item, index) =>
-        item.eventClassificationLevel2.includes(this.select.eventClassificationLevel2) &&
-          item.eventClassificationLevel3.includes(this.select.eventClassificationLevel3) &&
-          item.masterEventType.includes(this.select.masterEventType) &&
-          item.sonEventType.includes(this.select.sonEventType)
+        item.date.includes(this.select.date) &&
+          item.dateType.includes(this.select.dateType) &&
+          item.week.includes(this.select.week) &&
+          item.defaultWeek.includes(this.select.defaultWeek) &&
+          item.operationWeek.includes(this.select.operationWeek)
       )
       this.list = list.filter((item, index) =>
         index < this.page * this.limit && index >= this.limit * (this.page - 1)
@@ -236,10 +250,11 @@ export default {
     // 新建数据
     handleCreate() {
       // 置空弹框字段，避免之前填写内容或编辑带出内容影响
-      this.temp.eventClassificationLevel2 = ''
-      this.temp.eventClassificationLevel3 = ''
-      this.temp.masterEventType = ''
-      this.temp.sonEventType = ''
+      this.temp.date = ''
+      this.temp.dateType = ''
+      this.temp.week = ''
+      this.temp.defaultWeek = ''
+      this.temp.operationWeek = ''
       // 打开弹窗
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -249,14 +264,16 @@ export default {
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
-        fetch.get({ url: '/cleanRelation/setEventTypeNewData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
-              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
-              '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType }, res => {
+        fetch.get({ url: '/cleanRelation/setDayNewData?date=' + this.temp.date +
+              '&dateType=' + this.temp.dateType +
+              '&week=' + this.temp.week +
+              '&defaultWeek=' + this.temp.defaultWeek +
+              '&operationWeek=' + this.temp.operationWeek
+        }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 新增后刷新表单
-          this.getEventTypeAllData()
+          this.getDayAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -281,15 +298,16 @@ export default {
         const tempData = Object.assign({}, this.temp)
         tempData.timestamp = +new Date(tempData.timestamp)
         // this.listLoading = true
-        fetch.get({ url: '/cleanRelation/updateEventTypeData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
-              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
-              '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType +
+        fetch.get({ url: '/cleanRelation/updateDayData?date=' + this.temp.date +
+              '&dateType=' + this.temp.dateType +
+              '&week=' + this.temp.week +
+              '&defaultWeek=' + this.temp.defaultWeek +
+              '&operationWeek=' + this.temp.operationWeek +
               '&id=' + this.temp.id }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 更新后刷新表单
-          this.getEventTypeAllData()
+          this.getDayAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
@@ -309,9 +327,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        fetch.get({ url: '/cleanRelation/deleteEventTypeData?id=' + this.temp.id }, res => {
+        fetch.get({ url: '/cleanRelation/deleteDayData?id=' + this.temp.id }, res => {
           // 删除后刷新表单
-          this.getEventTypeAllData()
+          this.getDayAllData()
           // 成功消息提醒
           this.$notify({
             title: '成功',
