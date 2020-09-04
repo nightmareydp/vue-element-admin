@@ -10,6 +10,9 @@
       <el-tab-pane label="分派级别关系t_dspatch_level">
         <t_dspatch_level />
       </el-tab-pane>
+      <el-tab-pane label="SLA关系t_sla">
+        <t_sla />
+      </el-tab-pane>
       <el-tab-pane label="测试">
         <test />
       </el-tab-pane>
@@ -21,6 +24,7 @@
 import t_system_product from './components/t_system_product'
 import t_event_type from './components/t_event_type'
 import t_dspatch_level from './components/t_dspatch_level'
+import t_sla from './components/t_sla'
 import test from './components/test'
 
 export default {
@@ -29,6 +33,7 @@ export default {
     t_system_product,
     t_event_type,
     t_dspatch_level,
+    t_sla,
     test
   }
 }
