@@ -1,28 +1,7 @@
 <template>
   <div>
-    <!-- 搜索框 -->
-    <div class="filter-container">
-      <!-- 标题搜索 -->
-      <span class="demonstration">事件分类层二</span>
-      <el-input v-model="select.eventClassificationLevel2" placeholder="事件分类层二" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">事件分类层三</span>
-      <el-input v-model="select.eventClassificationLevel3" placeholder="事件分类层三" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">主事件类型</span>
-      <el-input v-model="select.masterEventType" placeholder="主事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <span class="demonstration" style="margin-left: 10px;">子事件类型</span>
-      <el-input v-model="select.sonEventType" placeholder="子事件类型" style="width: 150px; margin-left: 5px;" class="demonstration" prefix-icon="el-icon-search" />
-      <!-- 搜索按钮 -->
-      <el-button class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="search">
-        {{ $t('table.search') }}
-      </el-button>
-      <!-- 添加按钮 -->
-      <el-button class="demonstration" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        {{ $t('table.add') }}
-      </el-button>
-      <!-- 导出 -->
-      <el-button :loading="downloadLoading" class="demonstration" type="primary" icon="el-icon-download" @click="handleDownload">
-        {{ $t('table.export') }}
-      </el-button>
+    <div>
+      <h4 style="text-align: center">《事件分类》</h4>
     </div>
     <!-- 表格主体-->
     <el-table
@@ -38,39 +17,30 @@
         :index="indexMethod"
       />
       <el-table-column
-        prop="id"
-        label="ID"
-        width="70"
-      />
-      <el-table-column
         prop="eventClassificationLevel2"
         label="事件分类层二"
-        width="300"
+        width="400"
       />
       <el-table-column
         prop="eventClassificationLevel3"
         label="事件分类层三"
-        width="300"
+        width="400"
       />
       <el-table-column
         prop="masterEventType"
         label="主事件类型"
-        width="300"
+        width="200"
       />
       <el-table-column
         prop="sonEventType"
         label="子事件类型"
-        width="300"
+        width="200"
       />
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <!-- 编辑按钮 -->
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            {{ $t('table.edit') }}
-          </el-button>
-          <!-- 删除按钮 -->
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
-            {{ $t('table.delete') }}
+            {{ $t('table.add') }}
           </el-button>
         </template>
       </el-table-column>
@@ -79,7 +49,7 @@
     <div class="filter-container">
       <el-pagination
         :current-page="page"
-        :page-sizes="[10, 20, 50, 100]"
+        :page-sizes="[5, 10, 20, 50]"
         :page-size="limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -138,7 +108,7 @@ export default {
       // 列表、分页
       list: [],
       data: [],
-      limit: 20,
+      limit: 5,
       total: null,
       page: 1,
       searchData: '',
@@ -191,7 +161,7 @@ export default {
       // 置空表单，避免增删改后，表单不刷新或新旧数据冗余
       this.list = []
       this.data = []
-      fetch.get({ url: '/cleanRelation/getEventTypeAllData' }, res => {
+      fetch.get({ url: '/no/getEventTypeAllData' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           _this.data.push(val)
@@ -207,9 +177,7 @@ export default {
       // 过滤得到满足搜索条件的展示数据list
       const list = this.data.filter((item, index) =>
         item.eventClassificationLevel2.includes(this.select.eventClassificationLevel2) &&
-          item.eventClassificationLevel3.includes(this.select.eventClassificationLevel3) &&
-          item.masterEventType.includes(this.select.masterEventType) &&
-          item.sonEventType.includes(this.select.sonEventType)
+          item.eventClassificationLevel3.includes(this.select.eventClassificationLevel3)
       )
       this.list = list.filter((item, index) =>
         index < this.page * this.limit && index >= this.limit * (this.page - 1)
@@ -230,43 +198,8 @@ export default {
     },
     // 搜索过滤数据
     search() {
-      this.getEventTypeAllData()
       this.page = 1
       this.getList()
-    },
-    // 新建数据
-    handleCreate() {
-      // 置空弹框字段，避免之前填写内容或编辑带出内容影响
-      this.temp.eventClassificationLevel2 = ''
-      this.temp.eventClassificationLevel3 = ''
-      this.temp.masterEventType = ''
-      this.temp.sonEventType = ''
-      // 打开弹窗
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        fetch.get({ url: '/cleanRelation/setEventTypeNewData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
-              '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
-              '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType }, res => {
-          console.log(res)
-          this.dialogFormVisible = false
-          // 新增后刷新表单
-          this.getEventTypeAllData()
-          // 成功消息提醒
-          this.$notify({
-            title: '成功',
-            message: '创建成功',
-            type: 'success',
-            duration: 2000
-          })
-        })
-      })
     },
     // 更新数据
     handleUpdate(row) {
@@ -282,11 +215,10 @@ export default {
         const tempData = Object.assign({}, this.temp)
         tempData.timestamp = +new Date(tempData.timestamp)
         // this.listLoading = true
-        fetch.get({ url: '/cleanRelation/updateEventTypeData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
+        fetch.get({ url: '/no/setEventTypeNewData?eventClassificationLevel2=' + this.temp.eventClassificationLevel2 +
               '&eventClassificationLevel3=' + this.temp.eventClassificationLevel3 +
               '&masterEventType=' + this.temp.masterEventType +
-              '&sonEventType=' + this.temp.sonEventType +
-              '&id=' + this.temp.id }, res => {
+              '&sonEventType=' + this.temp.sonEventType }, res => {
           console.log(res)
           this.dialogFormVisible = false
           // 更新后刷新表单
@@ -298,50 +230,6 @@ export default {
             type: 'success',
             duration: 2000
           })
-        })
-      })
-    },
-    // 删除数据
-    handleDelete(row) {
-      this.temp = Object.assign({}, row)
-      // 弹窗提示
-      this.$confirm('将删除此数据！确认是否删除', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        fetch.get({ url: '/cleanRelation/deleteEventTypeData?id=' + this.temp.id }, res => {
-          // 删除后刷新表单
-          this.getEventTypeAllData()
-          // 成功消息提醒
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
-          })
-        })
-      }).catch(() => {
-        // 取消并提示
-        this.$message({
-          type: 'info',
-          message: '取消删除'
-        })
-      })
-    },
-    handleDownload() {
-      // 弹窗提示
-      this.$confirm('敬请期待！', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-
-      }).catch(() => {
-        // 取消并提示
-        this.$message({
-          type: 'info',
-          message: '取消删除'
         })
       })
     }

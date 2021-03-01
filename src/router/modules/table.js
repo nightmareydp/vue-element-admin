@@ -38,9 +38,9 @@ const tableRouter = {
     },
     {
       path: 'clean-data',
-      component: () => import('@/views/table/clean-data'),
-      name: 'cleanData',
-      meta: { title: 'cleanData' }
+      component: () => import('@/views/table/clean-data/index'),
+      name: 'CleanData',
+      meta: { title: 'CleanData' }
     },
     {
       path: 'clean-relation',

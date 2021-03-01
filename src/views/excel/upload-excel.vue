@@ -17,18 +17,19 @@ export default {
     return {
       tableData: [],
       tableHeader: []
+
     }
   },
   methods: {
     beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1
+      const isLt1M = file.size / 1024 / 1024 < 100
 
       if (isLt1M) {
         return true
       }
 
       this.$message({
-        message: 'Please do not upload files larger than 1m in size.',
+        message: 'Please do not upload files larger than 100m in size.',
         type: 'warning'
       })
       return false

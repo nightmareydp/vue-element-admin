@@ -6,7 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
-import { fetch } from '../../../../../fetch'
+import { fetch } from '../../../../fetch'
 
 export default {
   mixins: [resize],
@@ -24,7 +24,6 @@ export default {
       default: '300px'
     }
   },
-
   data() {
     return {
       res: [],
@@ -49,7 +48,7 @@ export default {
 
       this.chart.setOption({
         title: {
-          text: '满意度',
+          text: 'SLA达标率',
           left: 'center'
         },
         tooltip: {
@@ -60,7 +59,6 @@ export default {
           orient: 'vertical',
           right: 10,
           top: 'center',
-          // eslint-disable-next-line no-undef
           data: this.array.name
         },
         toolbox: {
@@ -73,7 +71,7 @@ export default {
         },
         series: [
           {
-            name: '满意度',
+            name: 'SLA达标率',
             type: 'pie',
             radius: ['45%', '75%'],
             avoidLabelOverlap: false,
@@ -98,7 +96,7 @@ export default {
     },
     test() {
       const _this = this
-      fetch.get({ url: '/get/getSatisfaction' }, res => {
+      fetch.get({ url: '/get/getSla' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           const item = {}

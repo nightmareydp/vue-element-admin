@@ -2,7 +2,7 @@
   <div class="dashboard-editor-container">
     <div class="filter-container">
       <!-- 重要性 -->
-      <span class="demonstration">处理人</span>
+      <span class="demonstration">服务台</span>
       <el-select v-model="value" placeholder="请选择" style="margin-left: 5px;">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
@@ -21,19 +21,23 @@
         style="margin-left: 5px;"
       />
       <!-- 搜索按钮 -->
-      <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 15px;" align="center" :loading="loadingSelectData" @click="clickParent">
+      <el-button v-waves class="demonstration" type="primary" icon="el-icon-search" style="margin-left: 15px;" align="center" @click="handleFilter">
         搜索
       </el-button>
     </div>
 
-    <!--<el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+    <github-corner class="github-corner" />
+
+    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />
-    </el-row>-->
+    </el-row>
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="16">
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData" />
+          <pie-chart />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
@@ -44,50 +48,19 @@
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="16">
+      <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <test-chart ref="TestChart" />
+          <raddar-chart />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <raddar-chart ref="RaddarChart" />
-        </div>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <product-one-chart />
+          <pie-chart />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <product-two-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <product-three-chart />
-        </div>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <product-four-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <product-five-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <product-six-chart />
+          <bar-chart />
         </div>
       </el-col>
     </el-row>
@@ -96,16 +69,11 @@
 </template>
 
 <script>
-import TestChart from './components/TestChart'
+import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import RaddarChart from './components/RaddarChart'
 import PieChart from './components/PieChart'
-import ProductOneChart from './components/ProductOneChart'
-import ProductTwoChart from './components/ProductTwoChart'
-import ProductThreeChart from './components/ProductThreeChart'
-import ProductFourChart from './components/ProductFourChart'
-import ProductFiveChart from './components/ProductFiveChart'
-import ProductSixChart from './components/ProductSixChart'
+import BarChart from './components/BarChart'
 
 const lineChartData = {
   newVisitis: {
@@ -129,21 +97,14 @@ const lineChartData = {
 export default {
   name: 'DashboardAdmin',
   components: {
+    PanelGroup,
     LineChart,
     RaddarChart,
     PieChart,
-    TestChart,
-    ProductOneChart,
-    ProductTwoChart,
-    ProductThreeChart,
-    ProductFourChart,
-    ProductFiveChart,
-    ProductSixChart
-
+    BarChart
   },
   data() {
     return {
-      loadingSelectData: false,
       lineChartData: lineChartData.newVisitis,
       options: [{
         value: '选项1',
@@ -196,15 +157,6 @@ export default {
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
-    },
-    clickParent() {
-      this.loadingSelectData = true
-      this.$refs.TestChart.test()
-      this.$refs.RaddarChart.test()
-      setTimeout(() => {
-        this.loadingSelectData = false
-      }, 0.5 * 1000)
-      // this.loadingSelectData = false;
     }
   }
 }
@@ -221,6 +173,7 @@ export default {
     top: 0px;
     border: 0;
     right: 0;
+    background-color: black;
   }
 
   .chart-wrapper {

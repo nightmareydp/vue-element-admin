@@ -23,6 +23,10 @@
         <test />
       </el-tab-pane>
     </el-tabs>
+    <!-- 置顶按钮-->
+    <el-tooltip placement="top" content="tooltip">
+      <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="50" transition-name="fade" />
+    </el-tooltip>
   </div>
 </template>
 
@@ -34,6 +38,7 @@ import t_sla from './components/t_sla'
 import t_report_source from './components/t_report_source'
 import t_day from './components/t_day'
 import test from './components/test'
+import BackToTop from '@/components/BackToTop/index'
 
 export default {
   name: 'CleanRelation',
@@ -44,7 +49,22 @@ export default {
     t_sla,
     t_report_source,
     t_day,
-    test
+    test,
+    BackToTop
+  },
+  data() {
+    return {
+      // customizable button style, show/hide critical point, return position
+      myBackToTopStyle: {
+        right: '60px',
+        bottom: '60px',
+        width: '45px',
+        height: '45px',
+        'border-radius': '4px',
+        'line-height': '50px', // 请保持与高度一致以垂直居中 Please keep consistent with height to center vertically
+        background: '#d2d0d0'// 按钮的背景颜色 The background color of the button
+      }
+    }
   }
 }
 </script>
@@ -52,5 +72,8 @@ export default {
 <style scoped>
   .tab-container {
     margin: 30px;
+  }
+  .placeholder-container div {
+    margin: 10px;
   }
 </style>

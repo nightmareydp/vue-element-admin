@@ -28,7 +28,9 @@ export default {
   data() {
     return {
       res: [],
-      array: []
+      // array:[],
+      name: [],
+      value: []
     }
   },
   mounted() {
@@ -46,22 +48,32 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         title: {
-          text: '满意度',
+          text: '各产品线超时情况',
           left: 'center'
         },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+        xAxis: {
+          type: 'category',
+          data: this.name
+        },
+        yAxis: {
+          type: 'value',
+          min: 0,
+          max: 100,
+          axisLabel: {
+            formatter: '{value} %'
+          }
         },
         legend: {
           orient: 'vertical',
           right: 10,
           top: 'center',
-          // eslint-disable-next-line no-undef
-          data: this.array.name
+          data: ['未超时']
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: ({c}%) '
         },
         toolbox: {
           show: true,
@@ -71,40 +83,33 @@ export default {
             saveAsImage: {}
           }
         },
-        series: [
-          {
-            name: '满意度',
-            type: 'pie',
-            radius: ['45%', '75%'],
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '30',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: this.array
-          }
-        ]
+        series: [{
+          name: '未超时',
+          data: this.value,
+          type: 'bar',
+          showBackground: true,
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}% '
+          },
+          barWidth: 40
+        }]
       })
     },
     test() {
       const _this = this
-      fetch.get({ url: '/get/getSatisfaction' }, res => {
+      _this.name = []
+      _this.value = []
+      fetch.get({ url: '/get/getEveSla' }, res => {
         console.log(res)
         res.data.forEach(function(val) {
           const item = {}
-          item.value = val.num
+          item.value = val.num / 10
           item.name = val.name
-          _this.array.push(item)
+          // _this.array.push(item)
+          _this.name.push(item.name)
+          _this.value.push(item.value)
         })
         _this.initChart()
       })

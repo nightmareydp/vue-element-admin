@@ -10,363 +10,219 @@
 </head>
 <body>
 
-<div id="getCleanAllData" style="width: 110px;height:70px;">
-    <a href="http://localhost:8080/itsv/cleanAllData" class="trans-btn trans-btn-zh" id="cleanAllData-button">
-        <button type="submit" name="cleanAllData" id="cleanAllData"  >清洗全量数据</button>
-    </a>
-</div>
-
-<!--        &lt;!&ndash; getProductLine &ndash;&gt;-->
-<!--        <div id="main" style="width: 900px;height:600px;"></div>-->
-<!--        <script type="text/javascript">-->
-<!--            const name = [];-->
-<!--            const num = [];-->
-<!--            const bili = [];-->
-<!--            $.ajax({-->
-<!--                url: "http://localhost:8080/itsv/getProductLine", //访问的url地址-->
-<!--                type: "GET", //请求类型-->
-<!--                async: false,-->
-<!--                success: function(result) {-->
-<!--                    //result为接受的结果-->
-<!--                    console.log(result);-->
-<!--                    result.forEach(function (val) {-->
-<!--                        name.push(val.name)-->
-<!--                        num.push(val.num)-->
-<!--                        bili.push(val.bili)-->
-<!--                    })-->
-<!--                }-->
-<!--            })-->
-
-<!--            // 基于准备好的dom，初始化echarts实例-->
-<!--            var dom = document.getElementById('main');-->
-<!--            var myChart = echarts.init(dom);-->
-
-<!--            // 指定图表的配置项和数据-->
-<!--            var option = {-->
-<!--                title: {-->
-<!--                    text: '本周产品线事件单周占比'-->
-<!--                },-->
-<!--                tooltip: {},-->
-<!--                legend: {-->
-<!--                    data: ['单量','比例']-->
-<!--                },-->
-<!--                xAxis: {-->
-<!--                    data: name-->
-<!--                },-->
-<!--                yAxis: [-->
-<!--                    {-->
-<!--                        type: 'value',-->
-<!--                        splitLine: {-->
-<!--                            show: false-->
-<!--                        },-->
-<!--                        name: '单量',-->
-<!--                    },-->
-<!--                    {-->
-<!--                        type: 'value',-->
-<!--                        min: 0,-->
-<!--                        max: 0.5,-->
-<!--                        splitLine: {-->
-<!--                            show: false-->
-<!--                        },-->
-<!--                        name: '比例',-->
-<!--                    }],-->
-<!--                series: [-->
-<!--                    {-->
-<!--                        name: '单量',-->
-<!--                        type: 'bar',-->
-<!--                        label: {-->
-<!--                            show: true,-->
-<!--                            position: 'top',-->
-<!--                            fontSize: 16-->
-<!--                        },-->
-<!--                        data: num-->
-<!--                    },-->
-<!--                    {-->
-<!--                        name: '比例',-->
-<!--                        type: 'line',-->
-<!--                        label: {-->
-<!--                            show: true,-->
-<!--                            position: 'top',-->
-<!--                            fontSize: 16-->
-<!--                        },-->
-<!--                        yAxisIndex: 1,-->
-<!--                        data: bili-->
-<!--                    }-->
-<!--                ]-->
-<!--            };-->
-
-<!--            // 使用刚指定的配置项和数据显示图表。-->
-<!--            myChart.setOption(option);-->
-<!--        </script>-->
-
-<!-- getWorkload -->
-<div id="getWorkload" style="width:900px;height:600px;"></div>
-<script type="text/javascript">
-    const x = [];
-    const y = [];
-    $.ajax({
-        url: "http://localhost:8080/itsv/getWorkload", //访问的url地址
-        type: "GET", //请求类型
-        async: false,
-        success: function(result) {
-            //result为接受的结果
-            console.log(result);
-            result.forEach(function (val) {
-                x.push(val.name)
-                y.push(val.num)
-            })
-        }
-    })
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('getWorkload'));
-
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '每人工单数'
-        },
-        tooltip: {},
-        legend: {
-            data: ['单量']
-        },
-        xAxis: {
-            data: x
-        },
-        yAxis: {
-            name:'单',
-            nameLocation:'middle'
-        },
-        series: [{
-            name: '单量',
-            type: 'bar',
-            data: y
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>
-
-
-<!-- getSystemNum -->
-<div id="getSystemNum" style="width:900px;height:600px;"></div>
-<script type="text/javascript">
-    const SystemName = [];
-    const SystemNum = [];
-    $.ajax({
-        url: "http://localhost:8080/get/getTotalTrend", //访问的url地址
-        type: "GET", //请求类型
-        async: false,
-        success: function(result) {
-            //result为接受的结果
-            console.log(result);
-            result.forEach(function (val) {
-                SystemName.push(val.name)
-                SystemNum.push(val.num)
-            })
-        }
-    })
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('getSystemNum'));
-
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '系统单量'
-        },
-        tooltip: {},
-        legend: {
-            data: ['单量']
-        },
-        xAxis: {
-            data: SystemName
-        },
-        yAxis: {
-            name:'单',
-            nameLocation:'middle'
-        },
-        series: [{
-            name: '单量',
-            type: 'bar',
-            data: SystemNum
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>
-
-
-<div id="getSatisfaction" style="width: 900px;height:600px;"></div>
+<div id="qwqw" style="width: 2500px;height:800px;"></div>
 <script>
-    const sName = [];
-    const sNum = [];
-    $.ajax({
-        url: "http://localhost:8080/get/getSatisfaction", //访问的url地址
-        type: "GET", //请求类型
-        async: false,
-        success: function(result) {
-            //result为接受的结果
-            console.log(result);
-            result.forEach(function (val) {
-                sName.push(val.name)
-                sNum.push(val.num)
-            })
-        }
-    })
+
 
     // 绘制图表。
-    echarts.init(document.getElementById('getSatisfaction')).setOption({
-        title: {
-            text: '满意度',
-            left: 'center'
-        },
-        <!-- 选中标签数据格式 -->
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b}: {c} ({d}%)'
-        },
-        <!-- 标签 -->
-        legend: {
-            orient: 'vertical',
-            right: 10,
-            top: 'center',
-            data: sName
-        },
-        series: [
-            {
-                name: '满意度',
-                type: 'pie',
-                <!-- 半径 -->
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                <!-- 选中中央数据标签 -->
-                label: {
-                    show: false,
-                    position: 'center'
-                },
-                <!-- 选中中央数据标签 -->
-                emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: '30',
-                        fontWeight: 'bold'
-                    }
-                },
-                <!-- 是否显示视觉引导线 -->
-                labelLine: {
-                    show: false
-                },
-                data: [
-                    {value: sNum[0], name: sName[0]},
-                    {value: sNum[1], name: sName[1]},
-                    {value: sNum[2], name: sName[2]}
-                    // {value: 1548, name: '搜索引擎'}
+    let myChart = echarts.init(document.getElementById('qwqw'));
+    let option = {
+      tooltip: {
+        trigger: 'item',
+        triggerOn: 'mousemove'
+      },
+      series: [
+        {
+          type: 'tree',
+          id: 0,
+          name: 'tree1',
+          data: [{
+            "name": "中国",
+            "children": [
+              {
+                "name": "天津市",
+                "children": [
+                  {
+                    "name": "河北区",
+                    "children": [
+                      {"name": "恒大", "value": 721},
+                      {"name": "龙湖", "value": 4294}
+                    ]
+                  },
+                  {
+                    "name": "静海区",
+                    "value": 3322
+                  }
                 ]
-            }
-        ]
-    });
-</script>
-
-<div id="getSLA" style="width: 900px;height:600px;"></div>
-<script>
-    const slaName = [];
-    const slaNum = [];
-    $.ajax({
-        url: "http://localhost:8080/get/getSla", //访问的url地址
-        type: "GET", //请求类型
-        async: false,
-        success: function(result) {
-            //result为接受的结果
-            console.log(result);
-            result.forEach(function (val) {
-                slaName.push(val.name)
-                slaNum.push(val.num)
-            })
-        }
-    });
-
-    echarts.init(document.getElementById('getSLA')).setOption({
-        title: {
-            text: 'SLA达标率',
-            left: 'center'
-        },
-        <!-- 选中标签数据格式 -->
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b}: {c} ({d}%)'
-        },
-        <!-- 标签 -->
-        legend: {
-            orient: 'vertical',
-            right: 10,
-            top: 'center',
-            data: slaName
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                dataView: {readOnly: false},
-                restore: {},
-                saveAsImage: {}
-            }
-        },
-        series: [
-            {
-                name: 'SLA达标率',
-                type: 'pie',
-                <!-- 半径 -->
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                <!-- 选中中央数据标签 -->
-                label: {
-                    show: false,
-                    position: 'center'
-                },
-                <!-- 选中中央数据标签 -->
-                emphasis: {
-                    label: {
-                        show: true,
-                        fontSize: '30',
-                        fontWeight: 'bold'
-                    }
-                },
-                <!-- 是否显示视觉引导线 -->
-                labelLine: {
-                    show: false
-                },
-                data: [
-                    {value: slaNum[0], name: slaName[0]},
-                    {value: slaNum[1], name: slaName[1]}
+              },
+              {
+                "name": "山西省",
+                "children": [
+                  {"name": "太原", "value": 8833},
+                  {"name": "运城", "value": 1732},
+                  {"name": "阳泉", "value": 3623}
                 ]
-            }
-        ]
-    });
-
-</script>
-
-
-
-<div id="qwqw" style="width: 1500px;height:600px;"></div>
-<script>
-    // 绘制图表。
-    echarts.init(document.getElementById('qwqw')).setOption({
-        title: {
-            text: '饼图'
-        },
-        tooltip: {},
-        legend: {
-            data: ['A','B','C']
-        },
-        series: {
-            type: 'pie',
-            data: [
-                {name: 'A', value: 1212},
-                {name: 'B', value: 2323},
-                {name: 'C', value: 1919}
+              },
+              {
+                "name": "广东省",
+                "children": [
+                  {"name": "佛山", "value": 4116}
+                ]
+              },
+              {
+                "name": "北京市",
+                "children": [
+                  {"name": "海淀区", "value": 1616},
+                  {"name": "朝阳区", "value": 1027},
+                  {"name": "东城区", "value": 3891},
+                  {"name": "西城区", "value": 891},
+                  {"name": "昌平区", "value": 2893},
+                  {"name": "石景山区", "value": 5103},
+                  {"name": "房山区", "value": 3677},
+                  {"name": "丰台区", "value": 781},
+                  {"name": "大兴区", "value": 4141},
+                  {"name": "通州区", "value": 933},
+                  {"name": "密云区", "value": 5130},
+                  {
+                    "name": "大兴区",
+                    "children": [
+                      {"name": "小红门", "value": 593},
+                      {"name": "旧宫", "value": 330},
+                      {"name": "亦庄桥", "value": 287},
+                      {"name": "万源街", "value": 277},
+                      {"name": "荣京东街", "value": 292},
+                      {"name": "荣昌东街", "value": 595},
+                      {"name": "同济南路", "value": 594},
+                      {"name": "经海路", "value": 460},
+                      {"name": "次渠", "value": 603},
+                      {"name": "地区有很多1", "value": 625},
+                      {"name": "地区有很多2", "value": 748},
+                      {"name": "地区有很多3", "value": 461},
+                      {"name": "地区有很多4", "value": 597},
+                      {"name": "地区有很多5", "value": 619},
+                      {"name": "地区有很多6", "value": 283},
+                      {"name": "地区有很多7", "value": 283},
+                      {"name": "地区有很多8", "value": 591},
+                      {"name": "地区有很多9", "value": 603},
+                      {"name": "地区有很多10", "value": 599},
+                      {"name": "地区有很多91", "value": 386},
+                      {"name": "地区有很多92", "value": 323},
+                      {"name": "地区有很多93", "value": 307},
+                      {"name": "地区有很多94", "value": 772},
+                      {"name": "地区有很多96", "value": 296},
+                      {"name": "地区有很多95", "value": 363},
+                      {"name": "地区有很多97", "value": 600},
+                      {"name": "地区有很多98", "value": 280}
+                    ]
+                  },
+                  {"name": "不知道什么区11", "value": 843},
+                  {"name": "不知道什么区12", "value": 1554},
+                  {"name": "不知道什么区13", "value": 970},
+                  {"name": "不知道什么区14", "value": 13896},
+                  {"name": "不知道什么区15", "value": 1594},
+                  {"name": "不知道什么区16", "value": 4130},
+                  {"name": "不知道什么区17", "value": 791},
+                  {"name": "不知道什么区18", "value": 1124},
+                  {"name": "不知道什么区19", "value": 1876},
+                  {"name": "不知道什么区10", "value": 1101}
+                ]
+              },
+              {
+                "name": "河北省",
+                "children": [
+                  {"name": "石家庄市", "value": 2105},
+                  {"name": "邯郸市", "value": 1316},
+                  {"name": "邢台市", "value": 3151},
+                  {"name": "保定市", "value": 3770},
+                  {"name": "沧州市", "value": 2435},
+                  {"name": "张家口市", "value": 4839},
+                  {"name": "承德市", "value": 1756},
+                  {"name": "唐山市", "value": 4268},
+                  {"name": "秦皇岛市", "value": 1821}
+                ]
+              }
             ]
+          }],
+
+          top: '8%',
+          left: '8%',
+          bottom: '4%',
+          right: '8%',
+
+          //控制类型和方向
+          layout: 'orthogonal',
+          orient: 'TB',
+
+          //展开按钮尺寸
+          symbolSize: 15,
+          //展开按钮样式
+          itemStyle: {
+            color: 'red',
+          },
+
+          //边的形状
+          edgeShape: 'polyline',
+          //子树中折线段分叉的位置
+          edgeForkPosition: '50%',
+          //初始展开的层级
+          initialTreeDepth: 3,
+
+          lineStyle: {
+            width: 2
+          },
+
+
+          //高亮
+          emphasis: {},
+
+
+          label: {
+            show: 'true',
+            //文字块背景色
+            backgroundColor: '#fff',
+            //标签的位置
+            position: 'top',
+            fontSize: '16',
+            //边框颜色
+            borderColor: "rgba(107, 194, 225, 1)",
+            //边框宽度
+            borderWidth: 1,
+            //边框圆角
+            borderRadius: [3, 3, 3, 3],
+            //文字块的内边距
+            padding: [15, 15, 15, 15],
+            // verticalAlign: 'middle',
+            align: 'center',
+            formatter: '{b}'
+          },
+
+          leaves: {
+            label: {
+              position: 'top',
+              // verticalAlign: 'middle',
+              align: 'center',
+              formatter: '{b} \n{c}'
+            }
+          },
+
+          expandAndCollapse: true,
+          animationDuration: 550,
+          animationDurationUpdate: 750
         }
-    });
+      ]
+    };
+    myChart.setOption(option);
+
+    let container = document.getElementById('qwqw');
+    let allNode=0;
+    let nodes=myChart._chartsViews[0]._data._graphicEls;
+    for(let i=0,count =nodes.length;i<count;i++){
+      let node=nodes[i];
+      if(node===undefined)
+        continue;
+      allNode++;
+    }
+
+    let width=window.innerWidth;
+    let currentWidth=100*allNode;
+    let newHeight=Math.max(currentWidth,width);
+    container.style.height = window.innerHeight + 'px';
+
+    container.style.width = newHeight + 'px';
+
+    myChart.resize();
+
+
 </script>
 </body>
 </html>

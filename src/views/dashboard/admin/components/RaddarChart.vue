@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       res: [],
-      array:[]
+      array: []
     }
   },
   mounted() {
@@ -64,7 +64,7 @@ export default {
         toolbox: {
           show: true,
           feature: {
-            dataView: {readOnly: false},
+            dataView: { readOnly: false },
             restore: {},
             saveAsImage: {}
           }
@@ -95,11 +95,12 @@ export default {
       })
     },
     test() {
-      const _this = this;
+      const _this = this
+      _this.array = []
       fetch.get({ url: '/get/getSla' }, res => {
         console.log(res)
-        res.data.forEach(function(val){
-          let item = {}
+        res.data.forEach(function(val) {
+          const item = {}
           item.value = val.num
           item.name = val.name
           _this.array.push(item)

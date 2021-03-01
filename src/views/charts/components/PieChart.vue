@@ -6,7 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
-import { fetch } from '../../../../../fetch'
+import { fetch } from '../../../../fetch'
 
 export default {
   mixins: [resize],
@@ -29,6 +29,7 @@ export default {
     return {
       res: [],
       array: []
+
     }
   },
   mounted() {
